@@ -31,6 +31,7 @@ class MoviesAdapter @Inject constructor() : RecyclerView.Adapter<MoviesAdapter.V
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(differ.currentList[position])
+        holder.setIsRecyclable(false)
     }
 
     override fun getItemCount(): Int = differ.currentList.size
