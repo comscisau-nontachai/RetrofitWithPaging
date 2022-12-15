@@ -3,6 +3,7 @@ package com.example.retrofitwithpaging.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -16,10 +17,27 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MoviesAdapter @Inject constructor() : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
+class MoviesAdapter @Inject constructor() : PagingDataAdapter<MoviesListResponse.Result,MoviesAdapter.ViewHolder>(diffCallback = differCallback) {
     private lateinit var binding : ItemMoviesBinding
     private lateinit var context : Context
     private var onItemClickListener : ((MoviesListResponse.Result) -> Unit)? = null
+
+    companion object{
+        val differCallback = object : DiffUtil.ItemCallback<MoviesListResponse.Result>() {
+            override fun areItemsTheSame(
+                oldItem: MoviesListResponse.Result,
+                newItem: MoviesListResponse.Result
+            ): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(
+                oldItem: MoviesListResponse.Result,
+                newItem: MoviesListResponse.Result
+            ) = oldItem == newItem
+
+        }
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,11 +48,9 @@ class MoviesAdapter @Inject constructor() : RecyclerView.Adapter<MoviesAdapter.V
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(differ.currentList[position])
+        holder.bind(getItem(position)!!)
         holder.setIsRecyclable(false)
     }
-
-    override fun getItemCount(): Int = differ.currentList.size
 
     inner class ViewHolder() : RecyclerView.ViewHolder(binding.root){
         fun bind(item : MoviesListResponse.Result){
@@ -59,23 +75,6 @@ class MoviesAdapter @Inject constructor() : RecyclerView.Adapter<MoviesAdapter.V
         }
     }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<MoviesListResponse.Result>() {
-        override fun areItemsTheSame(
-            oldItem: MoviesListResponse.Result,
-            newItem: MoviesListResponse.Result
-        ): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(
-            oldItem: MoviesListResponse.Result,
-            newItem: MoviesListResponse.Result
-        ): Boolean {
-            return  oldItem == newItem
-        }
-
-    }
-    val differ = AsyncListDiffer(this,diffCallback)
 
     fun setOnItemClickListener(listener : (MoviesListResponse.Result) -> Unit){
         onItemClickListener = listener

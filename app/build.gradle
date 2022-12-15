@@ -49,20 +49,24 @@ dependencies {
     //navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.1'
-//Hilt
+    //Hilt
     implementation 'com.google.dagger:hilt-android:2.44'
     kapt 'com.google.dagger:hilt-compiler:2.44'
-//Retrofit
+    //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-//Client
+    //Client
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.1'
-//OkHttp Interceptor
+    //OkHttp Interceptor
     implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.1"
-//Gson
+    //Gson
     implementation 'com.google.code.gson:gson:2.9.1'
-//Image loading
+    //Image loading
     implementation 'io.coil-kt:coil:1.4.0'
+
+    //paging
+    implementation 'androidx.paging:paging-common-ktx:3.1.1'
+    implementation 'androidx.paging:paging-runtime-ktx:3.1.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
